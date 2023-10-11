@@ -39,7 +39,7 @@ node = request.RawPC("node")
 #     pc.reportError( portal.ParameterError( "Sandy dataset is not available right now" , ["dataset"]) )
 
 # Allocate a node and ask for a 30GB file system mounted at /mydata
-node.disk_image = "urn:publicid:IDN+emulab.net+image+emulab-ops//UBUNTU16-64-STD"
+node.disk_image = "urn:publicid:IDN+emulab.net+image+emulab-ops//UBUNTU20-64-STD"
 
 iface = node.addInterface()
 fsnode = request.RemoteBlockstore("fsnode", "/mydata")

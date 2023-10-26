@@ -77,7 +77,7 @@ sudo docker pull dtcenter/python:${PROJ_VERSION}
 sudo docker pull dtcenter/nwp-container-met:${PROJ_VERSION}
 sudo docker pull dtcenter/nwp-container-metviewer:${PROJ_VERSION}
 
-if [ "$(docker images | wc -l)" -ne 7 ]; then
+if [ "$(sudo docker images | wc -l)" -ne 7 ]; then
   log "Error: The number of Docker images is not 7."
   exit 1  # Exit with an error code
 fi

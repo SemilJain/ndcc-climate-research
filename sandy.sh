@@ -5,7 +5,6 @@ LOG_FILE="/local/repository/script_log.txt"
 
 # Function to log a message
 log() {
-  echo "$(date +'%Y-%m-%d %H:%M:%S') - $1"
   echo "$(date +'%Y-%m-%d %H:%M:%S') - $1" >> "$LOG_FILE"
 }
 

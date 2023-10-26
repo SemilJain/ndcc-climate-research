@@ -37,15 +37,15 @@ if ! getent group docker; then
 fi
 
 log "USER: $USER"
-if ! groups | grep "docker"; then
-  # If the user is not a member, add them to the group
-  log "Adding user to group..."
-  sudo usermod -aG docker $USER
-  newgrp docker
-fi
+# if ! groups | grep "docker"; then
+#   # If the user is not a member, add them to the group
+#   log "Adding user to group..."
+#   sudo usermod -aG docker $USER
+#   newgrp docker
+# fi
 
-log "Printing groups"
-groups | grep "docker"
+# log "Printing groups"
+# groups | grep "docker"
 
 # Install Docker compose
 log "Installing Docker-compose and xml-lint"
@@ -70,12 +70,12 @@ fi
 # Get all dockers from HUB
 log "Downloading images from Docker Hub..."
 cd ${PROJ_DIR}
-docker pull dtcenter/wps_wrf:${PROJ_VERSION}
-docker pull dtcenter/gsi:${PROJ_VERSION}
-docker pull dtcenter/upp:${PROJ_VERSION}
-docker pull dtcenter/python:${PROJ_VERSION}
-docker pull dtcenter/nwp-container-met:${PROJ_VERSION}
-docker pull dtcenter/nwp-container-metviewer:${PROJ_VERSION}
+sudo docker pull dtcenter/wps_wrf:${PROJ_VERSION}
+sudo docker pull dtcenter/gsi:${PROJ_VERSION}
+sudo docker pull dtcenter/upp:${PROJ_VERSION}
+sudo docker pull dtcenter/python:${PROJ_VERSION}
+sudo docker pull dtcenter/nwp-container-met:${PROJ_VERSION}
+sudo docker pull dtcenter/nwp-container-metviewer:${PROJ_VERSION}
 
 if [ "$(docker images | wc -l)" -ne 7 ]; then
   log "Error: The number of Docker images is not 7."

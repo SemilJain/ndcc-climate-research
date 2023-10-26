@@ -1,13 +1,9 @@
 #!/bin/bash
 
-cp /local/repository/* ~/
+sudo chmod +x /local/repository/preparation.sh
+source /local/repository/preparation.sh
 
-cd
-
-sudo chmod +x ~/preparation.sh
-source ~/preparation.sh
-
-sudo chmod +x ~/sandy.sh
-source ~/sandy.sh
+sudo chmod +x /local/repository/sandy.sh
+source /local/repository/sandy.sh
 
 echo "Startup script Completed Successfully!!!"

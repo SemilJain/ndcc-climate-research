@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Define the log file path
-LOG_FILE="~/script_log.txt"
+LOG_FILE="/local/repository/script_log.txt"
 
 # Function to log a message
 log() {

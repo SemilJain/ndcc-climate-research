@@ -63,7 +63,7 @@ mkdir -p ${CASE_DIR}
 log "Exported variables: $PROJ_DIR, $PROJ_VERSION, $DATASET, $CASE_DIR"
 # Get github repo
 if ! ls | grep "container-dtc-nwp"; then
-curl -SL https://github.com/NCAR/container-dtc-nwp/archive/refs/tags/v${PROJ_VERSION}.tar.gz | tar zxC . && mv container-dtc-nwp-${PROJ_VERSION} container-dtc-nwp
+sudo curl -SL https://github.com/NCAR/container-dtc-nwp/archive/refs/tags/v${PROJ_VERSION}.tar.gz | sudo tar zxC . && mv container-dtc-nwp-${PROJ_VERSION} container-dtc-nwp
 fi
 
 # Get all dockers from HUB
@@ -82,6 +82,6 @@ if [ "$(sudo docker images | wc -l)" -ne 7 ]; then
 fi
 
 cd ${CASE_DIR}
-mkdir -p wpsprd wrfprd gsiprd postprd pythonprd metprd metviewer/mysql
+sudo mkdir -p wpsprd wrfprd gsiprd postprd pythonprd metprd metviewer/mysql
 cd ${PROJ_DIR}
 log "Preparation done. The script completed successfully."

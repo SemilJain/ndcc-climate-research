@@ -50,7 +50,7 @@ log "Installing Docker-compose and xml-lint"
 sudo apt install docker-compose -y
 sudo apt-get update
 sudo apt -y install libxml2-utils
-
+sudo apt-get install python
 
 # Create Repos
 log "Setting up repos..."

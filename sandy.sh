@@ -19,13 +19,14 @@ export CASE_DIR=${PROJ_DIR}/${DATASET}
 cd ${PROJ_DIR}
 uid=$(id -u)
 gid=$(id -g)
-sudo chown -R $uid:$gid ${PROJ_DIR}
+# sudo chown -R $uid:$gid ${PROJ_DIR}
+sudo chown -R 9999:9999 ${PROJ_DIR}
 
 log "Variables set: $PROJ_DIR, $PROJ_VERSION, $DATASET, $CASE_DIR, $USER, $uid, $gid"
 
 log "Running Domain"
 
-sudo docker run --rm -e LOCAL_USER_ID=`id -u $USER` \
+sudo docker run --rm \
 -v ${PROJ_DIR}/container-dtc-nwp/components/scripts/common:/home/scripts/common \
 -v ${PROJ_DIR}/container-dtc-nwp/components/scripts/sandy_20121027:/home/scripts/case \
 -v /mydata/data/shapefiles:/home/data/shapefiles \
@@ -35,7 +36,7 @@ sudo docker run --rm -e LOCAL_USER_ID=`id -u $USER` \
 
 log "Running WPS"
 
-sudo docker run --rm -e LOCAL_USER_ID=`id -u $USER` \
+sudo docker run --rm \
 -v /mydata/data/WPS_GEOG:/data/WPS_GEOG \
 -v /mydata/data:/data -v ${PROJ_DIR}/container-dtc-nwp/components/scripts/common:/home/scripts/common \
 -v ${PROJ_DIR}/container-dtc-nwp/components/scripts/sandy_20121027:/home/scripts/case \
@@ -44,7 +45,7 @@ sudo docker run --rm -e LOCAL_USER_ID=`id -u $USER` \
 
 log "Running Real"
 
-sudo docker run --rm -e LOCAL_USER_ID=`id -u $USER` \
+sudo docker run --rm \
 -v /mydata/data:/data -v ${PROJ_DIR}/container-dtc-nwp/components/scripts/common:/home/scripts/common \
 -v ${PROJ_DIR}/container-dtc-nwp/components/scripts/sandy_20121027:/home/scripts/case \
 -v ${CASE_DIR}/wpsprd:/home/wpsprd \
@@ -53,7 +54,7 @@ sudo docker run --rm -e LOCAL_USER_ID=`id -u $USER` \
 
 log "Running GSI"
 
-sudo docker run --rm -e LOCAL_USER_ID=`id -u $USER` \
+sudo docker run --rm \
 -v /mydata/data:/data \
 -v ${PROJ_DIR}/container-dtc-nwp/components/scripts/common:/home/scripts/common \
 -v ${PROJ_DIR}/container-dtc-nwp/components/scripts/sandy_20121027:/home/scripts/case \
@@ -62,7 +63,7 @@ sudo docker run --rm -e LOCAL_USER_ID=`id -u $USER` \
 
 log "Running WRF"
 
-sudo docker run --rm -e LOCAL_USER_ID=`id -u $USER` \
+sudo docker run --rm \
  -v ${PROJ_DIR}/container-dtc-nwp/components/scripts/common:/home/scripts/common \
  -v ${PROJ_DIR}/container-dtc-nwp/components/scripts/sandy_20121027:/home/scripts/case \
  -v ${CASE_DIR}/wpsprd:/home/wpsprd -v ${CASE_DIR}/gsiprd:/home/gsiprd -v ${CASE_DIR}/wrfprd:/home/wrfprd \
@@ -70,7 +71,7 @@ sudo docker run --rm -e LOCAL_USER_ID=`id -u $USER` \
 
 log "Running UPP"
 
-sudo docker run --rm -e LOCAL_USER_ID=`id -u $USER` \
+sudo docker run --rm \
 -v ${PROJ_DIR}/container-dtc-nwp/components/scripts/common:/home/scripts/common \
 -v ${PROJ_DIR}/container-dtc-nwp/components/scripts/sandy_20121027:/home/scripts/case \
 -v ${CASE_DIR}/wrfprd:/home/wrfprd -v ${CASE_DIR}/postprd:/home/postprd \
@@ -78,7 +79,7 @@ sudo docker run --rm -e LOCAL_USER_ID=`id -u $USER` \
 
 log "Running Python Graphics"
 
-sudo docker run --rm -e LOCAL_USER_ID=`id -u $USER` \
+sudo docker run --rm \
 -v ${PROJ_DIR}/container-dtc-nwp/components/scripts/common:/home/scripts/common \
 -v ${PROJ_DIR}/container-dtc-nwp/components/scripts/sandy_20121027:/home/scripts/case \
 -v /mydata/data/shapefiles:/home/data/shapefiles \
@@ -87,7 +88,7 @@ sudo docker run --rm -e LOCAL_USER_ID=`id -u $USER` \
 
 log "Running MET"
 
-sudo docker run --rm -e LOCAL_USER_ID=`id -u $USER` \
+sudo docker run --rm \
 -v /mydata/data:/data \
 -v ${PROJ_DIR}/container-dtc-nwp/components/scripts/common:/home/scripts/common \
 -v ${PROJ_DIR}/container-dtc-nwp/components/scripts/sandy_20121027:/home/scripts/case \

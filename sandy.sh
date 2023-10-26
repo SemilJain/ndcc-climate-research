@@ -12,9 +12,7 @@ exec > >(tee -a "$LOG_FILE") 2>&1
 
 log "Starting script..."
 
-cd
-
-export PROJ_DIR=`pwd`
+export PROJ_DIR="/local/repository"
 export PROJ_VERSION="4.1.0"
 DATASET=$(geni-get manifest | xmllint --xpath "string(//*[local-name()='data_item'])" -)
 export CASE_DIR=${PROJ_DIR}/${DATASET}

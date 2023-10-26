@@ -14,10 +14,10 @@ log "Starting script..."
 cd
 
 # Change permissions for the script
-sudo chmod 755 setup-grow-rootfs.sh
+sudo chmod 755 /local/repository/setup-grow-rootfs.sh
 
 # Set the RESIZEROOT environment variable and run the script
-sudo RESIZEROOT=0 ./setup-grow-rootfs.sh
+sudo RESIZEROOT=0 /local/repository/setup-grow-rootfs.sh
 
 log "Resizing completed."
 
@@ -26,7 +26,7 @@ log "Resizing completed."
 if ! command -v docker; then
   # If Docker is not installed, install it
   log "Installing docker from script..."
-  sh get-docker.sh
+  sh /local/repository/get-docker.sh
 fi
 
 # Allow non-root docker access
@@ -56,12 +56,13 @@ sudo apt -y install libxml2-utils
 
 # Create Repos
 log "Setting up repos..."
-export PROJ_DIR=`pwd`
+export PROJ_DIR="/local/repository"
 export PROJ_VERSION="4.1.0"
 DATASET=$(geni-get manifest | xmllint --xpath "string(//*[local-name()='data_item'])" -)
 export CASE_DIR=${PROJ_DIR}/${DATASET}
 mkdir -p ${CASE_DIR}
 
+log "Exported variables: $PROJ_DIR, $PROJ_VERSION, $DATASET, $CASE_DIR"
 # Get github repo
 if ! ls | grep "container-dtc-nwp"; then
 curl -SL https://github.com/NCAR/container-dtc-nwp/archive/refs/tags/v${PROJ_VERSION}.tar.gz | tar zxC . && mv container-dtc-nwp-${PROJ_VERSION} container-dtc-nwp

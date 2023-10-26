@@ -11,8 +11,6 @@ log() {
 exec > >(tee -a "$LOG_FILE") 2>&1
 log "Starting script..."
 
-cd
-
 # Change permissions for the script
 sudo chmod 755 /local/repository/setup-grow-rootfs.sh
 

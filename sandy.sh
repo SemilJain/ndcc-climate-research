@@ -17,6 +17,12 @@ export PROJ_VERSION="4.1.0"
 DATASET=$(geni-get manifest | xmllint --xpath "string(//*[local-name()='data_item'])" -)
 export CASE_DIR=${PROJ_DIR}/${DATASET}
 log "Variables set: $PROJ_DIR, $PROJ_VERSION, $DATASET, $CASE_DIR"
+
+cd ${PROJ_DIR}
+uid=$(id -u)
+gid=$(id -g)
+sudo chown -R $uid:$gid ${PROJ_DIR}
+
 log "Running Domain"
 
 sudo docker run --rm -e LOCAL_USER_ID=`id -u $USER` \

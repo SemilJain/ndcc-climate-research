@@ -48,7 +48,7 @@ log "USER: $USER"
 # Install Docker compose
 log "Installing Docker-compose and xml-lint"
 sudo apt install docker-compose -y
-
+sudo apt-get update
 sudo apt -y install libxml2-utils
 
 
@@ -63,7 +63,7 @@ mkdir -p ${CASE_DIR}
 log "Exported variables: $PROJ_DIR, $PROJ_VERSION, $DATASET, $CASE_DIR"
 # Get github repo
 if ! ls | grep "container-dtc-nwp"; then
-sudo curl -SL https://github.com/NCAR/container-dtc-nwp/archive/refs/tags/v${PROJ_VERSION}.tar.gz | sudo tar zxC . && sudo mv container-dtc-nwp-${PROJ_VERSION} container-dtc-nwp
+sudo curl -SL https://github.com/NCAR/container-dtc-nwp/archive/refs/tags/v${PROJ_VERSION}.tar.gz | sudo tar zxC . && sudo mv container-dtc-nwp-${PROJ_VERSION} /local/repository/container-dtc-nwp
 fi
 
 # Get all dockers from HUB

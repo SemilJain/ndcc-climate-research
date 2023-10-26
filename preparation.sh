@@ -5,7 +5,6 @@ LOG_FILE="/local/repository/script_log.txt"
 
 # Function to log a message
 log() {
-  echo "$(date +'%Y-%m-%d %H:%M:%S') - $1"
   echo "$(date +'%Y-%m-%d %H:%M:%S') - $1" >> "$LOG_FILE"
 }
 
@@ -37,12 +36,16 @@ if ! getent group docker; then
   sudo groupadd docker
 fi
 
+log "USER: $USER"
 if ! groups | grep "docker"; then
   # If the user is not a member, add them to the group
   log "Adding user to group..."
   sudo usermod -aG docker $USER
   newgrp docker
 fi
+
+log "Printing groups"
+groups | grep "docker"
 
 # Install Docker compose
 log "Installing Docker-compose and xml-lint"

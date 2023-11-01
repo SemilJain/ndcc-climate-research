@@ -1,7 +1,9 @@
 #!/bin/bash
 
+export USER="semil"
+cd /users/$USER
 # Define the log file path
-LOG_FILE="/local/repository/script_log.txt"
+LOG_FILE="/users/$USER/script_log.txt"
 
 # Function to log a message
 log() {
@@ -12,10 +14,10 @@ exec > >(tee -a "$LOG_FILE") 2>&1
 log "Starting script..."
 
 # Change permissions for the script
-sudo chmod 755 /local/repository/setup-grow-rootfs.sh
+sudo chmod 755 ./setup-grow-rootfs.sh
 
 # Set the RESIZEROOT environment variable and run the script
-sudo RESIZEROOT=0 /local/repository/setup-grow-rootfs.sh
+sudo RESIZEROOT=0 ./setup-grow-rootfs.sh
 
 log "Resizing completed."
 
@@ -24,7 +26,7 @@ log "Resizing completed."
 if ! command -v docker; then
   # If Docker is not installed, install it
   log "Installing docker from script..."
-  sh /local/repository/get-docker.sh
+  sh ./get-docker.sh
 fi
 
 # Allow non-root docker access
@@ -50,20 +52,22 @@ log "Installing Docker-compose and xml-lint"
 sudo apt install docker-compose -y
 sudo apt-get update
 sudo apt -y install libxml2-utils
-sudo apt-get install python -y
+# sudo apt-get install python -y
 
 # Create Repos
 log "Setting up repos..."
-export PROJ_DIR="/local/repository"
+export PROJ_DIR="/users/semil"
 export PROJ_VERSION="4.1.0"
-DATASET=$(geni-get manifest | xmllint --xpath "string(//*[local-name()='data_item'])" -)
+# DATASET=$(geni-get manifest | xmllint --xpath "string(//*[local-name()='data_item'])" -)
+DATASET="sandy"
 export CASE_DIR=${PROJ_DIR}/${DATASET}
 mkdir -p ${CASE_DIR}
 
 log "Exported variables: $PROJ_DIR, $PROJ_VERSION, $DATASET, $CASE_DIR"
+cd ${PROJ_DIR}
 # Get github repo
 if ! ls | grep "container-dtc-nwp"; then
-sudo curl -SL https://github.com/NCAR/container-dtc-nwp/archive/refs/tags/v${PROJ_VERSION}.tar.gz | sudo tar zxC . && sudo mv container-dtc-nwp-${PROJ_VERSION} /local/repository/container-dtc-nwp
+sudo curl -SL https://github.com/NCAR/container-dtc-nwp/archive/refs/tags/v${PROJ_VERSION}.tar.gz | sudo tar zxC . && sudo mv container-dtc-nwp-${PROJ_VERSION} ./container-dtc-nwp
 fi
 
 # Get all dockers from HUB

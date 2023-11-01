@@ -2,8 +2,9 @@
 
 export USER="semil"
 cd /users/$USER
+sudo touch logs.txt
 # Define the log file path
-LOG_FILE="/users/$USER/script_log.txt"
+LOG_FILE="/users/$USER/logs.txt"
 
 # Function to log a message
 log() {

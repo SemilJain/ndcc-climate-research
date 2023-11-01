@@ -32,7 +32,7 @@ request = pc.makeRequestRSpec()
  
 # Add a raw PC to the request.
 node = request.RawPC("node")
-
+node.hardware_type = "m510"
 # Check parameter validity. Should fetch the dataset from the long-term volume
 
 # if params.dataset == "sandy":

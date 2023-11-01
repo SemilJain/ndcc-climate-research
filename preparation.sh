@@ -2,7 +2,6 @@
 
 export USER="semil"
 cd /users/$USER
-sudo touch logs.txt
 # Define the log file path
 LOG_FILE="/users/$USER/logs.txt"
 

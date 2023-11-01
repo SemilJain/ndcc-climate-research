@@ -59,7 +59,7 @@ fslink.vlan_tagging = True
 # bs.size = "30GB"
 
 # Install and execute a script that is contained in the repository.
-# node.addService(pg.Execute(shell="bash", command="source /local/repository/startup-script.sh"))
+node.addService(pg.Execute(shell="bash", command="source /local/repository/startup-script.sh"))
 
 
 # Print the RSpec to the enclosing page.

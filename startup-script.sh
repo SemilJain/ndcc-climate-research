@@ -8,4 +8,5 @@
 export USER="semil"
 cd /users/$USER
 sudo mkdir hello
+sudo cp -r /local/repository/* ./
 echo "Startup script Completed Successfully!!!"

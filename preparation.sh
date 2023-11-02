@@ -1,8 +1,8 @@
 #!/bin/bash
 
-export USER="semil"
 cd /users/$USER
 # Define the log file path
+touch logs.txt
 LOG_FILE="/users/$USER/logs.txt"
 
 # Function to log a message
@@ -56,10 +56,10 @@ sudo apt -y install libxml2-utils
 
 # Create Repos
 log "Setting up repos..."
-export PROJ_DIR="/users/semil"
+export PROJ_DIR=$(pwd)
 export PROJ_VERSION="4.1.0"
-# DATASET=$(geni-get manifest | xmllint --xpath "string(//*[local-name()='data_item'])" -)
-DATASET="sandy"
+DATASET=$(geni-get manifest | xmllint --xpath "string(//*[local-name()='data_item'])" -)
+# DATASET="sandy"
 export CASE_DIR=${PROJ_DIR}/${DATASET}
 mkdir -p ${CASE_DIR}
 
@@ -67,7 +67,7 @@ log "Exported variables: $PROJ_DIR, $PROJ_VERSION, $DATASET, $CASE_DIR"
 cd ${PROJ_DIR}
 # Get github repo
 if ! ls | grep "container-dtc-nwp"; then
-sudo curl -SL https://github.com/NCAR/container-dtc-nwp/archive/refs/tags/v${PROJ_VERSION}.tar.gz | sudo tar zxC . && sudo mv container-dtc-nwp-${PROJ_VERSION} ./container-dtc-nwp
+curl -SL https://github.com/NCAR/container-dtc-nwp/archive/refs/tags/v${PROJ_VERSION}.tar.gz | tar zxC . && mv container-dtc-nwp-${PROJ_VERSION} ./container-dtc-nwp
 fi
 
 # Get all dockers from HUB
@@ -86,6 +86,6 @@ if [ "$(sudo docker images | wc -l)" -ne 7 ]; then
 fi
 
 cd ${CASE_DIR}
-sudo mkdir -p wpsprd wrfprd gsiprd postprd pythonprd metprd metviewer/mysql
+mkdir -p wpsprd wrfprd gsiprd postprd pythonprd metprd metviewer/mysql
 cd ${PROJ_DIR}
 log "Preparation done. The script completed successfully."

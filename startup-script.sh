@@ -1,7 +1,9 @@
 #!/bin/bash
 cd /users/$USER
 sudo cp -r /local/repository/* ./
-
+uid=$(id -u $USER)
+gid=$(id -g $USER)
+sudo chown -R $uid:$gid ./
 # chmod +x ./preparation.sh
 bash preparation.sh
 

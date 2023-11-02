@@ -2,7 +2,7 @@
 
 cd /users/$USER
 # Define the log file path
-LOG_FILE="/users/$USER/logs.txt"
+LOG_FILE="/users/$USER/script_log.txt"
 
 # Function to log a message
 log() {

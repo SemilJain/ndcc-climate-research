@@ -1,6 +1,5 @@
 #!/bin/bash
 cd /users/$USER
-touch logs.txt
 sudo cp -r /local/repository/* ./
 
 chmod +x ./preparation.sh

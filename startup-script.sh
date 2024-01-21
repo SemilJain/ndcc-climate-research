@@ -7,7 +7,9 @@ sudo chown -R $uid:$gid ./
 # chmod +x ./preparation.sh
 bash preparation.sh
 
+DATASET=$(geni-get manifest | xmllint --xpath "string(//*[local-name()='data_item'])" -)
+
 # chmod +x ./sandy.sh
-bash sandy.sh
+bash "$DATASET.sh"
 
 echo "Startup script Completed Successfully!!!"

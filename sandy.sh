@@ -16,7 +16,6 @@ log "Starting script..."
 export PROJ_DIR=$(pwd)
 export PROJ_VERSION="4.1.0"
 DATASET=$(geni-get manifest | xmllint --xpath "string(//*[local-name()='data_item'])" -)
-# DATASET="sandy"
 export CASE_DIR=${PROJ_DIR}/${DATASET}
 cd ${PROJ_DIR}
 uid=$(id -u $USER)
@@ -27,7 +26,6 @@ sudo chown -R $uid:$gid ${PROJ_DIR}
 log "Variables set: $PROJ_DIR, $PROJ_VERSION, $DATASET, $CASE_DIR, $USER, $uid, $gid"
 
 log "Running Domain"
-# cp -r /mydata/data ./
 
 sudo docker run --rm -e LOCAL_USER_ID=`id -u $USER` \
 -v ${PROJ_DIR}/container-dtc-nwp/components/scripts/common:/home/scripts/common \
@@ -104,7 +102,7 @@ cd ${PROJ_DIR}/container-dtc-nwp/components/metviewer
 sudo chown -R 999:999 ${CASE_DIR}/metviewer/mysql
 sudo docker-compose up -d
 
-sleep 90
+sleep 60
 
 sudo docker exec metviewer /scripts/common/metv_load_all.ksh mv_sandy
 

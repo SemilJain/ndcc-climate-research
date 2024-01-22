@@ -67,7 +67,7 @@ sudo docker run --rm -e LOCAL_USER_ID=`id -u $USER` \
 -v ${PROJ_DIR}/container-dtc-nwp/components/scripts/common:/home/scripts/common \
 -v ${CASE_DIR}/wrfprd:/home/wrfprd -v ${CASE_DIR}/wpsprd:/home/wpsprd \
 -v ${PROJ_DIR}/container-dtc-nwp/components/scripts/derecho_20120629:/home/scripts/case \
---name run-dtc-nwp-derecho dtcenter/wps_wrf:${PROJ_VERSION} /home/scripts/common/run_wrf.ksh
+--name run-dtc-nwp-derecho dtcenter/wps_wrf:${PROJ_VERSION} /home/scripts/common/run_wrf.ksh -np 8
 
 log "Running UPP"
 

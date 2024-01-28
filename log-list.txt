@@ -1,0 +1,5 @@
+script_log.txt
+${CASE_DIR}/wpsprd/run_*.log
+${CASE_DIR}/gsiprd/stdout
+${CASE_DIR}/wrfprd/rsl.out.0000
+${CASE_DIR}/postprd/unipost*.out

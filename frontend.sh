@@ -27,6 +27,9 @@ do
    bash track-log.sh $line  &
 done
 
+# Link result directory to server image directory
+ln -s ${CASE_DIR}/pythonprd/ $PROJ_DIR/climate-dashboard/static/images
+
 cd climate-dashboard
 # running server
 python3 main.py

@@ -6,11 +6,27 @@ pip3 install Flask pygtail
 
 # cloning web server repo
 sudo git clone https://github.com/hamzalsheikh/climate-dashboard.git
-cd climate-dashboard
+
+
+
+# Get project directory
+export PROJ_DIR=$(pwd)
+PROJ_VERSION="4.1.0"
+export DATASET=$(geni-get manifest | xmllint --xpath "string(//*[local-name()='data_item'])" -)
+export CASE_DIR=${PROJ_DIR}/${DATASET}
+mkdir -p ${CASE_DIR}
+
+sudo mkdir -p climate-dashboard/static/logs
 
 # get log files
-sudo mkdir -p static/logs
-sudo tail -f ../script_log.txt > static/logs/script_log.txt &
+# pass name and path of log files
+cat log-list.txt | while read line 
+do
+   # run a process for each log file
+   echo $line
+   bash track-log.sh $line  &
+done
 
+cd climate-dashboard
 # running server
 python3 main.py

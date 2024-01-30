@@ -19,12 +19,20 @@ mkdir -p ${CASE_DIR}
 sudo mkdir -p climate-dashboard/static/logs
 
 # get log files
-# pass name and path of log files
+# pass name and path of log files (can pass ending line too to break the tail process)
 cat log-list.txt | while read line 
 do
-   # run a process for each log file
-   echo $line
-   bash track-log.sh $line  &
+   # run a process for each log line 
+   IFS=" " read -ra my_array <<< "$line"
+
+   if [ ${my_array[0]} == "root" ];
+   then
+      echo "true $line "
+      bash track-log.sh ${my_array[1]} &
+   else
+      echo "false $line "
+      bash track-log.sh "$CASE_DIR/${my_array[1]}" &
+   fi
 done
 
 # Link result directory to server image directory

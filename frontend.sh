@@ -36,6 +36,15 @@ do
 done
 
 # Link result directory to server image directory
+counter=0
+max_counter=100
+until [[ -d ${CASE_DIR}/pythonprd/ || $counter -ge $max_counter ]]
+do
+   echo "Waiting for the result directory  ${CASE_DIR}/pythonprd/ to be created..."
+   let counter=counter+1
+   sleep 5
+done
+
 sudo mkdir -p climate-dashboard/static/images
 ln -s ${CASE_DIR}/pythonprd/ $PROJ_DIR/climate-dashboard/static/images
 

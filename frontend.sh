@@ -36,6 +36,7 @@ do
 done
 
 # Link result directory to server image directory
+sudo mkdir -p climate-dashboard/static/images
 ln -s ${CASE_DIR}/pythonprd/ $PROJ_DIR/climate-dashboard/static/images
 
 cd climate-dashboard

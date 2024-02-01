@@ -1,25 +1,37 @@
 #!/bin/bash
 echo "track log!"
-echo $1
+file=$1
 
-IFS=" " read -ra log_files <<< "$1"
-  for file in ${log_files[@]}; do
-  # wait till file creation
-    until [[ -f $file ]]
-    do
-      echo "Waiting for the file $1 to be created..."
-      sleep 1
-    done
-    
-    sudo tail -f $file > "climate-dashboard/static/logs/${file##*/}" &
+# check if file has a wild card
+if [[ $file == *"*"* ]]; then
+  echo "wild card $file"
+  while true; do
+    files=( $file)  # attempt to expand the wildcard
+    # we can customize this to the number of logs created per container
+    if [ "${#files[@]}" -gt 2 ]; then
+        echo "File found: ${file}"
+        sudo ln -s ${file} $PROJ_DIR/climate-dashboard/static/logs/ 
+        break
+    else
+        echo "Waiting for log files ${file} to exist..."
+        sleep 1  # adjust the sleep duration as needed
+    fi
   done
 
-# to-do kill process when done
+  exit
+else
+  echo "no wild card $file"
+  # wait for file to be created
+  counter=0
+  max_counter=20
+  until [[ -f $file || $counter -ge $max_counter ]]
+  do
+    echo "Waiting for the file $file to be created..."
+    let counter=counter+1
+    sleep 1
+  done
+  echo "creating symlink"
+  sudo ln -s $PROJ_DIR/$file $PROJ_DIR/climate-dashboard/static/logs/
+  exit
 
-tailpid=$!
-
-# wait for sometime
-sleep 25
-
-# now kill the tail process
-sudo kill $tailpid
+fi

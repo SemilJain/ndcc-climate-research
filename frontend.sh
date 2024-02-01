@@ -16,8 +16,13 @@ export DATASET=$(geni-get manifest | xmllint --xpath "string(//*[local-name()='d
 export CASE_DIR=${PROJ_DIR}/${DATASET}
 mkdir -p ${CASE_DIR}
 
-sudo mkdir -p climate-dashboard/static/logs
+cd climate-dashboard
+# running server
+python3 main.py &
 
+cd ..
+
+sudo mkdir -p climate-dashboard/static/logs
 # get log files
 # pass name and path of log files
 cat log-list.txt | while read line 
@@ -47,7 +52,3 @@ done
 
 sudo mkdir -p climate-dashboard/static/images
 ln -s ${CASE_DIR}/pythonprd/ $PROJ_DIR/climate-dashboard/static/images
-
-cd climate-dashboard
-# running server
-python3 main.py

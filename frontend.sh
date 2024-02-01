@@ -2,7 +2,7 @@
 
 # installing dependencies
 sudo apt install python3-pip
-"Y" | pip3 install Flask pygtail
+yes | pip3 install Flask pygtail
 # cloning web server repo
 sudo git clone https://github.com/hamzalsheikh/climate-dashboard.git
 

@@ -5,7 +5,7 @@ uid=$(id -u $USER)
 gid=$(id -g $USER)
 sudo chown -R $uid:$gid ./
 
-bash sudo frontend.sh > log_frontend.txt 2>&1 &
+bash frontend.sh > log_frontend.txt 2>&1 &
 bash preparation.sh
 
 DATASET=$(geni-get manifest | xmllint --xpath "string(//*[local-name()='data_item'])" -)

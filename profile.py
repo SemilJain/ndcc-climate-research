@@ -23,6 +23,10 @@ pc.defineParameter(
            ('derecho','Derecho Case (29 Jun 2012)')],
     longDescription="Specifies the dataset to use for running the model and getting results!")
 
+pc.defineParameter(
+    "date","Date in YYYYMMDDHH format",portal.ParameterType.STRING,
+    "",
+    longDescription="Provide the date for the forecast")
 
 # Retrieve the values the user specifies during instantiation.
 params = pc.bindParameters()

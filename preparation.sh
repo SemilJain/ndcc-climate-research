@@ -68,7 +68,7 @@ export SERVER_DIR=${PROJ_DIR}/server
 cd ${SERVER_DIR}
 npm init -y
 npm install express -y
-node server.js
+node server.js &
 
 log "Exported variables: $PROJ_DIR, $PROJ_VERSION, $DATASET, $CASE_DIR"
 cd ${PROJ_DIR}

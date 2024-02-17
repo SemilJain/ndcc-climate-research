@@ -52,6 +52,8 @@ log "Installing Docker-compose and xml-lint"
 sudo apt install docker-compose -y
 sudo apt-get update
 sudo apt -y install libxml2-utils
+sudo apt install nodejs -y
+sudo apt install npm -y
 # sudo apt-get install python -y
 
 # Create Repos
@@ -59,9 +61,14 @@ log "Setting up repos..."
 export PROJ_DIR=$(pwd)
 export PROJ_VERSION="4.1.0"
 DATASET=$(geni-get manifest | xmllint --xpath "string(//*[local-name()='data_item'])" -)
-# DATASET="sandy"
 export CASE_DIR=${PROJ_DIR}/${DATASET}
 mkdir -p ${CASE_DIR}
+
+export SERVER_DIR=${PROJ_DIR}/server
+cd ${SERVER_DIR}
+npm init -y
+npm install express -y
+node server.js
 
 log "Exported variables: $PROJ_DIR, $PROJ_VERSION, $DATASET, $CASE_DIR"
 cd ${PROJ_DIR}
@@ -72,18 +79,18 @@ fi
 
 # Get all dockers from HUB
 log "Downloading images from Docker Hub..."
-cd ${PROJ_DIR}
-sudo docker pull dtcenter/wps_wrf:${PROJ_VERSION}
-sudo docker pull dtcenter/gsi:${PROJ_VERSION}
-sudo docker pull dtcenter/upp:${PROJ_VERSION}
-sudo docker pull dtcenter/python:${PROJ_VERSION}
-sudo docker pull dtcenter/nwp-container-met:${PROJ_VERSION}
-sudo docker pull dtcenter/nwp-container-metviewer:${PROJ_VERSION}
+# cd ${PROJ_DIR}
+# sudo docker pull dtcenter/wps_wrf:${PROJ_VERSION}
+# sudo docker pull dtcenter/gsi:${PROJ_VERSION}
+# sudo docker pull dtcenter/upp:${PROJ_VERSION}
+# sudo docker pull dtcenter/python:${PROJ_VERSION}
+# sudo docker pull dtcenter/nwp-container-met:${PROJ_VERSION}
+# sudo docker pull dtcenter/nwp-container-metviewer:${PROJ_VERSION}
 
-if [ "$(sudo docker images | wc -l)" -ne 7 ]; then
-  log "Error: The number of Docker images is not 7."
-  exit 1  # Exit with an error code
-fi
+# if [ "$(sudo docker images | wc -l)" -ne 7 ]; then
+#   log "Error: The number of Docker images is not 7."
+#   exit 1  # Exit with an error code
+# fi
 
 cd ${CASE_DIR}
 mkdir -p wpsprd wrfprd gsiprd postprd pythonprd metprd metviewer/mysql

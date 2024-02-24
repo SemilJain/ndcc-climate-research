@@ -2,7 +2,6 @@
 
 cd /users/$USER
 # Define the log file path
-touch logs.txt
 LOG_FILE="/users/$USER/script_log.txt"
 
 # Function to log a message
@@ -11,6 +10,7 @@ log() {
 }
 
 exec > >(tee -a "$LOG_FILE") 2>&1
+
 log "Starting script..."
 
 # Change permissions for the script
@@ -20,7 +20,6 @@ sudo chmod 755 ./setup-grow-rootfs.sh
 sudo RESIZEROOT=0 ./setup-grow-rootfs.sh
 
 log "Resizing completed."
-
 
 # Install docker
 if ! command -v docker; then
@@ -79,18 +78,18 @@ fi
 
 # Get all dockers from HUB
 log "Downloading images from Docker Hub..."
-# cd ${PROJ_DIR}
-# sudo docker pull dtcenter/wps_wrf:${PROJ_VERSION}
-# sudo docker pull dtcenter/gsi:${PROJ_VERSION}
-# sudo docker pull dtcenter/upp:${PROJ_VERSION}
-# sudo docker pull dtcenter/python:${PROJ_VERSION}
-# sudo docker pull dtcenter/nwp-container-met:${PROJ_VERSION}
-# sudo docker pull dtcenter/nwp-container-metviewer:${PROJ_VERSION}
+cd ${PROJ_DIR}
+sudo docker pull dtcenter/wps_wrf:${PROJ_VERSION}
+sudo docker pull dtcenter/gsi:${PROJ_VERSION}
+sudo docker pull dtcenter/upp:${PROJ_VERSION}
+sudo docker pull dtcenter/python:${PROJ_VERSION}
+sudo docker pull dtcenter/nwp-container-met:${PROJ_VERSION}
+sudo docker pull dtcenter/nwp-container-metviewer:${PROJ_VERSION}
 
-# if [ "$(sudo docker images | wc -l)" -ne 7 ]; then
-#   log "Error: The number of Docker images is not 7."
-#   exit 1  # Exit with an error code
-# fi
+if [ "$(sudo docker images | wc -l)" -ne 7 ]; then
+  log "Error: The number of Docker images is not 7."
+  exit 1  # Exit with an error code
+fi
 
 cd ${CASE_DIR}
 mkdir -p wpsprd wrfprd gsiprd postprd pythonprd metprd metviewer/mysql

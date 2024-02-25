@@ -48,6 +48,7 @@ log "USER: $USER"
 
 # Install Docker compose
 log "Installing Docker-compose and xml-lint"
+
 sudo apt install docker-compose -y
 sudo apt-get update
 sudo apt -y install libxml2-utils
@@ -67,6 +68,7 @@ export SERVER_DIR=${PROJ_DIR}/server
 cd ${SERVER_DIR}
 npm init -y
 npm install express -y
+npm install moment -y
 node server.js &
 
 log "Exported variables: $PROJ_DIR, $PROJ_VERSION, $DATASET, $CASE_DIR"

@@ -12,7 +12,7 @@ sudo git clone https://github.com/hamzalsheikh/climate-dashboard.git
 # Get project directory
 export PROJ_DIR=$(pwd)
 PROJ_VERSION="4.1.0"
-export DATASET=$(geni-get manifest | xmllint --xpath "string(//*[local-name()='data_item'])" -)
+export DATASET=$(geni-get manifest | xmllint --xpath "string(//*[local-name()='data_item' and @name='emulab.net.parameter.dataset'])" -)
 export CASE_DIR=${PROJ_DIR}/${DATASET}
 mkdir -p ${CASE_DIR}
 

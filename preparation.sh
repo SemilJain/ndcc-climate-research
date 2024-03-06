@@ -60,7 +60,7 @@ sudo apt install npm -y
 log "Setting up repos..."
 export PROJ_DIR=$(pwd)
 export PROJ_VERSION="4.1.0"
-DATASET=$(geni-get manifest | xmllint --xpath "string(//*[local-name()='data_item'])" -)
+DATASET=$(geni-get manifest | xmllint --xpath "string(//*[local-name()='data_item' and @name='emulab.net.parameter.dataset'])" -)
 export CASE_DIR=${PROJ_DIR}/${DATASET}
 mkdir -p ${CASE_DIR}
 

@@ -8,8 +8,8 @@ sudo chown -R $uid:$gid ./
 bash frontend.sh > log_frontend.txt 2>&1 &
 bash preparation.sh
 
-# DATASET=$(geni-get manifest | xmllint --xpath "string(//*[local-name()='data_item'])" -)
+DATASET=$(geni-get manifest | xmllint --xpath "string(//*[local-name()='data_item'])" -)
 
-# bash "$DATASET.sh"
+bash "$DATASET.sh"
 
 echo "Startup script Completed Successfully!!!"

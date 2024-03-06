@@ -51,4 +51,4 @@ do
 done
 
 sudo mkdir -p climate-dashboard/static/images
-sudo ln -s ${CASE_DIR}/pythonprd/ $PROJ_DIR/climate-dashboard/static/images
+sudo ln -s $CASE_DIR/pythonprd/ $PROJ_DIR/climate-dashboard/static/images

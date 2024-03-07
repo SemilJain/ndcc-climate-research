@@ -50,5 +50,11 @@ do
    sleep 5
 done
 
-sudo mkdir -p climate-dashboard/static/images
-sudo ln -s $CASE_DIR/pythonprd/ $PROJ_DIR/climate-dashboard/static/images
+sudo -s
+mkdir -p climate-dashboard/static/images
+export PROJ_DIR=$(pwd)
+PROJ_VERSION="4.1.0"
+export DATASET=$(geni-get manifest | xmllint --xpath "string(//*[local-name()='data_item' and @name='emulab.net.parameter.dataset'])" -)
+export CASE_DIR=${PROJ_DIR}/${DATASET}
+
+ln -s $CASE_DIR/pythonprd/ $PROJ_DIR/climate-dashboard/static/images

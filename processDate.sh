@@ -159,23 +159,27 @@ sudo docker run --rm -e LOCAL_USER_ID=`id -u $USER` \
 -v ${CASE_DIR}/postprd:/home/postprd -v ${CASE_DIR}/pythonprd:/home/pythonprd \
 --name run-${DATASET}-python dtcenter/python:${PROJ_VERSION} /home/scripts/common/run_python.ksh
 
-log "Running MET"
+cd ${CASE_DIR}
+mkdir gifs
+cp -r ${CASE_DIR}/pythonprd/*.gif ${CASE_DIR}/gifs
 
-sudo docker run --rm -e LOCAL_USER_ID=`id -u $USER` \
--v ${CASE_DIR}/data:/data \
--v ${PROJ_DIR}/container-dtc-nwp/components/scripts/common:/home/scripts/common \
--v ${CASE_DIR}/scripts_input:/home/scripts/case \
--v ${CASE_DIR}/postprd:/home/postprd -v ${CASE_DIR}/metprd:/home/metprd \
---name run-${DATASET}-met dtcenter/nwp-container-met:${PROJ_VERSION} /home/scripts/common/run_met.ksh
+# log "Running MET"
 
-log "Seeting up MetViewer"
+# sudo docker run --rm -e LOCAL_USER_ID=`id -u $USER` \
+# -v ${CASE_DIR}/data:/data \
+# -v ${PROJ_DIR}/container-dtc-nwp/components/scripts/common:/home/scripts/common \
+# -v ${CASE_DIR}/scripts_input:/home/scripts/case \
+# -v ${CASE_DIR}/postprd:/home/postprd -v ${CASE_DIR}/metprd:/home/metprd \
+# --name run-${DATASET}-met dtcenter/nwp-container-met:${PROJ_VERSION} /home/scripts/common/run_met.ksh
 
-cd ${PROJ_DIR}/container-dtc-nwp/components/metviewer
-sudo chown -R 999:999 ${CASE_DIR}/metviewer/mysql
-sudo docker-compose up -d
+# log "Seeting up MetViewer"
 
-sleep 60
+# cd ${PROJ_DIR}/container-dtc-nwp/components/metviewer
+# sudo chown -R 999:999 ${CASE_DIR}/metviewer/mysql
+# sudo docker-compose up -d
 
-sudo docker exec metviewer /scripts/common/metv_load_all.ksh mv_${DATASET}
+# sleep 60
+
+# sudo docker exec metviewer /scripts/common/metv_load_all.ksh mv_${DATASET}
 
 log "Script Completed"

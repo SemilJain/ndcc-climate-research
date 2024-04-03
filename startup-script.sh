@@ -10,6 +10,6 @@ bash preparation.sh
 
 DATASET=$(geni-get manifest | xmllint --xpath "string(//*[local-name()='data_item' and @name='emulab.net.parameter.dataset'])" -)
 
-bash "$DATASET.sh"
+# bash "$DATASET.sh"
 
 echo "Startup script Completed Successfully!!!"

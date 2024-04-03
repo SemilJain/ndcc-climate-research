@@ -25,14 +25,14 @@ export domain_list="d01"
 export startdate_d01=2024021000
 export fhr_d01=00
 export lastfhr_d01=24
-export incrementhr_d01=01
+export incrementhr_d01=03
 
 # Python settings
 #########################################################################
 export init_time=2024021000
 export fhr_beg=00
 export fhr_end=24
-export fhr_inc=01
+export fhr_inc=03
 
 # MET settings
 ########################################################################
@@ -46,5 +46,5 @@ export OBTYPE=ST2
 
 # Forecast hours to evaluate
 export FCST_HR_BEG=0
-export FCST_HR_END=6
+export FCST_HR_END=24
 export FCST_HR_INC=3

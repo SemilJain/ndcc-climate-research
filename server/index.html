@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visualize Your Own Forecast</title>
+</head>
+<body>
+    <h2>Visualize Your Own Forecast</h2>
+    <form id="forecast-form">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required><br><br>
+
+        <label for="date">Forecast Start Date:</label>
+        <input type="date" id="date" name="date" required><br><br>
+
+        <!-- <label for="time">Time:</label>
+        <input type="time" id="time" name="time" required><br><br>
+
+        <label for="uid">UID:</label>
+        <input type="text" id="uid" name="uid" required><br><br>
+
+        <label for="lat">Latitude:</label>
+        <input type="text" id="lat" name="lat" required><br><br>
+
+        <label for="lon">Longitude:</label>
+        <input type="text" id="lon" name="lon" required><br><br> -->
+
+        <button type="submit">Submit</button>
+    </form>
+
+    <div id="loading" style="display: none;">Processing...</div>
+    <div id="forecast-gifs"></div>
+
+    <script>
+        // Display loading message while waiting for response
+        const loadingDiv = document.getElementById('loading');
+        const forecastForm = document.getElementById('forecast-form');
+        forecastForm.addEventListener('submit', () => {
+            loadingDiv.style.display = 'block';
+        });
+
+        // Fetch and display GIFs after form submission
+        document.getElementById('forecast-form').addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const formData = new FormData(event.target);
+            const response = await fetch('http://localhost:3000/processDate', {
+                method: 'POST',
+                body: formData
+            });
+
+            if (response.ok) {
+                const { folderName } = await response.json();
+                const gifContainer = document.getElementById('forecast-gifs');
+                gifContainer.innerHTML = ''; // Clear previous GIFs
+                const img = document.createElement('img');
+                img.src = `${folderName}/500_d01.gif`; // Assuming the GIFs are named gif1.gif, gif2.gif, etc.
+                gifContainer.appendChild(img);
+                // // Fetch and display each GIF in the folder
+                // for (let i = 1; i <= 10; i++) { // Assuming there are 10 GIFs in the folder
+                //     const img = document.createElement('img');
+                //     img.src = `${folderName}/gif${i}.gif`; // Assuming the GIFs are named gif1.gif, gif2.gif, etc.
+                //     gifContainer.appendChild(img);
+                // }
+                loadingDiv.style.display = 'none'; // Hide loading message
+            } else {
+                alert('Failed to process forecast');
+                loadingDiv.style.display = 'none'; // Hide loading message
+            }
+        });
+    </script>
+</body>
+</html>

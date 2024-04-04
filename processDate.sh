@@ -159,9 +159,9 @@ sudo docker run --rm -e LOCAL_USER_ID=`id -u $USER` \
 -v ${CASE_DIR}/postprd:/home/postprd -v ${CASE_DIR}/pythonprd:/home/pythonprd \
 --name run-${DATASET}-python dtcenter/python:${PROJ_VERSION} /home/scripts/common/run_python.ksh
 
-cd ${CASE_DIR}
-mkdir gifs
-cp -r ${CASE_DIR}/pythonprd/*.gif ${CASE_DIR}/gifs
+cd ${PROJ_DIR}
+mkdir -p gifs/${INIT_YMDH}
+cp -r ${CASE_DIR}/pythonprd/*.gif gifs/${INIT_YMDH}/
 
 # log "Running MET"
 

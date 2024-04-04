@@ -14,18 +14,6 @@
         <label for="date">Forecast Start Date:</label>
         <input type="date" id="date" name="date" required><br><br>
 
-        <!-- <label for="time">Time:</label>
-        <input type="time" id="time" name="time" required><br><br>
-
-        <label for="uid">UID:</label>
-        <input type="text" id="uid" name="uid" required><br><br>
-
-        <label for="lat">Latitude:</label>
-        <input type="text" id="lat" name="lat" required><br><br>
-
-        <label for="lon">Longitude:</label>
-        <input type="text" id="lon" name="lon" required><br><br> -->
-
         <button type="submit">Submit</button>
     </form>
 
@@ -45,24 +33,43 @@
             event.preventDefault();
 
             const formData = new FormData(event.target);
-            const response = await fetch('http://localhost:3000/processDate', {
+            const jsonData = {};
+            formData.forEach((value, key) => {
+                jsonData[key] = value;
+            });
+            const url = 'http://ms1231.utah.cloudlab.us:3000';
+            const response = await fetch(`${url}/processDate`, {
                 method: 'POST',
-                body: formData
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(jsonData)
             });
 
             if (response.ok) {
                 const { folderName } = await response.json();
                 const gifContainer = document.getElementById('forecast-gifs');
-                gifContainer.innerHTML = ''; // Clear previous GIFs
+                gifContainer.innerHTML = '';
                 const img = document.createElement('img');
-                img.src = `${folderName}/500_d01.gif`; // Assuming the GIFs are named gif1.gif, gif2.gif, etc.
+                img.src = `${url}/${folderName}/500_d01.gif`;
                 gifContainer.appendChild(img);
-                // // Fetch and display each GIF in the folder
-                // for (let i = 1; i <= 10; i++) { // Assuming there are 10 GIFs in the folder
-                //     const img = document.createElement('img');
-                //     img.src = `${folderName}/gif${i}.gif`; // Assuming the GIFs are named gif1.gif, gif2.gif, etc.
-                //     gifContainer.appendChild(img);
-                // }
+
+                img = document.createElement('img');
+                img.src = `${url}/${folderName}/slp_d01.gif`;
+                gifContainer.appendChild(img);
+
+                img = document.createElement('img');
+                img.src = `${url}/${folderName}/sfcape_d01.gif`;
+                gifContainer.appendChild(img);
+
+                img = document.createElement('img');
+                img.src = `${url}/${folderName}/qpf_d01.gif`;
+                gifContainer.appendChild(img);
+
+                img = document.createElement('img');
+                img.src = `${url}/${folderName}/250wind_d01.gif`;
+                gifContainer.appendChild(img);
+
                 loadingDiv.style.display = 'none'; // Hide loading message
             } else {
                 alert('Failed to process forecast');

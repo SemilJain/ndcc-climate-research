@@ -4,11 +4,21 @@ const { exec } = require('child_process');
 const fs = require('fs');
 const app = express();
 const port = 3000;
-const { downloadData, modifyFiles, processData, postProcess } = require('./dataProcessing');
 app.use(express.json());
 app.use(express.static('/users/geniuser/gifs'));
 
 app.get('/', (req, res) => {
+  const ipAddress = req.ip; // Get visitor's IP address
+  const userAgent = req.get('User-Agent'); // Get visitor's user agent (browser)
+  const timestamp = new Date().toISOString(); // Get current timestamp
+
+  // Log visitor information to a file (append mode)
+  const logData = `${timestamp}, ${ipAddress}, ${userAgent}\n`;
+  fs.appendFile('/users/geniuser/logs/visitor_log.csv', logData, (err) => {
+    if (err) {
+      console.error('Error logging visitor:', err);
+    }
+  });
   res.sendFile('/users/geniuser/server/index.html');
 });
 
@@ -37,6 +47,17 @@ function waitForDirectory(directoryPath, maxTime, callback) {
 
 app.post('/processDate', (req, res) => {
   const data = req.body;
+  const ipAddress = req.ip;
+  const userAgent = req.get('User-Agent');
+  const timestamp = new Date().toISOString();
+
+  // Log visitor information to a file (append mode)
+  const logData = `${timestamp}, ${ipAddress}, ${userAgent}, ${data.name}, ${data.date}\n`;
+  fs.appendFile('/users/geniuser/logs/user_log.csv', logData, (err) => {
+    if (err) {
+      console.error('Error logging visitor:', err);
+    }
+  });
   data.name = data.name.replace(/\s/g, '');
   const dateFormatted = moment(data.date, 'YYYY-MM-DD').format('YYYYMMDD');
   const YMDH = `${dateFormatted}00`

@@ -81,8 +81,8 @@ bash sed_script.sh 5 " end_date   = '${end_date}','2006-08-16_12:00:00'," "namel
 # bash sed_script.sh 16 " e_sn              = 25, 97," "namelist.wps"
 bash sed_script.sh 21 " ref_lat   =  ${lat}." "namelist.wps"
 bash sed_script.sh 22 " ref_lon   = ${lon}." "namelist.wps"
-bash sed_script.sh 23 " truelat1  =  ${lat}," "namelist.wps"
-bash sed_script.sh 24 " truelat2  =  ${lat}," "namelist.wps"
+# bash sed_script.sh 23 " truelat1  =  ${lat}," "namelist.wps"
+# bash sed_script.sh 24 " truelat2  =  ${lat}," "namelist.wps"
 bash sed_script.sh 24 " stand_lon = ${lon}," "namelist.wps"
 
 bash sed_script.sh 6 " start_year                          = $(echo "$start_date" | cut -d'-' -f1), 2000, 2000," "namelist.input"

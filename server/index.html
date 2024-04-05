@@ -11,69 +11,77 @@
         <label for="name">Name:</label>
         <input type="text" id="name" name="name" required><br><br>
 
-        <label for="date">Forecast Start Date:</label>
+        <label for="date">Forecast Start Date: (For faster results, select any date in the past week)</label>
         <input type="date" id="date" name="date" required><br><br>
 
-        <button type="submit">Submit</button>
+        <button type="submit" id="submit-button">Submit</button>
     </form>
 
-    <div id="loading" style="display: none;">Processing...</div>
+    <div id="loading" style="display: none;">Processing... (If you selected a date a week before the current date, It might take around 25 minutes for the model to generate the forecast visualizations)</div>
     <div id="forecast-gifs"></div>
-
     <script>
         // Display loading message while waiting for response
         const loadingDiv = document.getElementById('loading');
         const forecastForm = document.getElementById('forecast-form');
-        forecastForm.addEventListener('submit', () => {
-            loadingDiv.style.display = 'block';
-        });
+        const submitButton = document.getElementById('submit-button');
+        // forecastForm.addEventListener('submit', () => {
+        //     loadingDiv.style.display = 'block';
+        // });
 
         // Fetch and display GIFs after form submission
         document.getElementById('forecast-form').addEventListener('submit', async (event) => {
             event.preventDefault();
-
+            submitButton.disabled = true;
+            loadingDiv.style.display = 'block';
+            const gifContainer = document.getElementById('forecast-gifs');
+            gifContainer.innerHTML = '';
             const formData = new FormData(event.target);
             const jsonData = {};
             formData.forEach((value, key) => {
                 jsonData[key] = value;
             });
             const url = 'http://ms1231.utah.cloudlab.us:3000';
-            const response = await fetch(`${url}/processDate`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(jsonData)
-            });
+            try {
+                const response = await fetch(`${url}/processDate`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(jsonData)
+                });
 
-            if (response.ok) {
-                const { folderName } = await response.json();
-                const gifContainer = document.getElementById('forecast-gifs');
-                gifContainer.innerHTML = '';
-                const img = document.createElement('img');
-                img.src = `${url}/${folderName}/500_d01.gif`;
-                gifContainer.appendChild(img);
+                if (response.ok) {
+                    const { folderName } = await response.json();
 
-                img = document.createElement('img');
-                img.src = `${url}/${folderName}/slp_d01.gif`;
-                gifContainer.appendChild(img);
 
-                img = document.createElement('img');
-                img.src = `${url}/${folderName}/sfcape_d01.gif`;
-                gifContainer.appendChild(img);
+                    let img = document.createElement('img');
+                    img.src = `${url}/${folderName}/500_d01.gif`;
+                    gifContainer.appendChild(img);
 
-                img = document.createElement('img');
-                img.src = `${url}/${folderName}/qpf_d01.gif`;
-                gifContainer.appendChild(img);
+                    img = document.createElement('img');
+                    img.src = `${url}/${folderName}/slp_d01.gif`;
+                    gifContainer.appendChild(img);
 
-                img = document.createElement('img');
-                img.src = `${url}/${folderName}/250wind_d01.gif`;
-                gifContainer.appendChild(img);
+                    img = document.createElement('img');
+                    img.src = `${url}/${folderName}/sfcape_d01.gif`;
+                    gifContainer.appendChild(img);
 
-                loadingDiv.style.display = 'none'; // Hide loading message
-            } else {
+                    img = document.createElement('img');
+                    img.src = `${url}/${folderName}/qpf_d01.gif`;
+                    gifContainer.appendChild(img);
+
+                    img = document.createElement('img');
+                    img.src = `${url}/${folderName}/250wind_d01.gif`;
+                    gifContainer.appendChild(img);
+                } else {
+                    throw new Error('Failed to process forecast');
+                }
+            } catch (error) {
+                console.error(error);
                 alert('Failed to process forecast');
-                loadingDiv.style.display = 'none'; // Hide loading message
+            } finally {
+                loadingDiv.style.display = 'none';
+                submitButton.disabled = false; // Re-enable the button
             }
         });
     </script>

@@ -96,4 +96,5 @@ fi
 cd ${CASE_DIR}
 mkdir -p wpsprd wrfprd gsiprd postprd pythonprd metprd metviewer/mysql
 cd ${PROJ_DIR}
+sudo chmod -R a+rwx logs
 log "Preparation done. The script completed successfully."

@@ -73,7 +73,7 @@ app.post('/processDate', (req, res) => {
   dateTime.add(1, 'days');
   const endDate = dateTime.format('YYYY-MM-DD_HH:mm:ss');
 
-  const command = `bash /users/geniuser/processDate.sh ${YMDH} ${MAX_FHR} ${FHR_INC} ${DATASET} ${startDate} ${endDate} 37 95`;
+  const command = `bash /users/geniuser/processDate.sh ${YMDH} ${MAX_FHR} ${FHR_INC} ${DATASET} ${startDate} ${endDate} 40 -97`;
 
   console.log(command);
   exec(command, (error, stdout, stderr) => {

@@ -11,8 +11,16 @@
         <label for="name">Name:</label>
         <input type="text" id="name" name="name" required><br><br>
 
-        <label for="date">Forecast Start Date: (For faster results, select any date in the past week)</label>
-        <input type="date" id="date" name="date" required><br><br>
+        <select id="date" name="date" required>
+            <option value="2024041100">April 11, 2024</option>
+            <option value="2024041000">April 10, 2024</option>
+            <option value="2024040900">April 9, 2024</option>
+            <option value="2024040800">April 8, 2024</option>
+            <option value="2024040700">April 7, 2024</option>
+            <option value="2024040600">April 6, 2024</option>
+            <option value="2024040500">April 5, 2024</option>
+            <option value="2024040400">April 4, 2024</option>
+        </select><br><br>
 
         <button type="submit" id="submit-button">Submit</button>
     </form>
@@ -52,8 +60,6 @@
 
                 if (response.ok) {
                     const { folderName } = await response.json();
-
-
                     let img = document.createElement('img');
                     img.src = `${url}/${folderName}/500_d01.gif`;
                     gifContainer.appendChild(img);

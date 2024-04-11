@@ -64,6 +64,7 @@ DATASET=$(geni-get manifest | xmllint --xpath "string(//*[local-name()='data_ite
 export CASE_DIR=${PROJ_DIR}/${DATASET}
 mkdir -p ${CASE_DIR}
 
+sudo chmod -R a+rwx ${PROJ_DIR}
 export SERVER_DIR=${PROJ_DIR}/server
 cd ${SERVER_DIR}
 npm init -y

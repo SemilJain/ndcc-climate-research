@@ -31,19 +31,30 @@ app.get('/', (req, res) => {
 //   }, 5000);
 // }
 
-function waitForDirectory(directoryPath, maxTime, callback) {
-  let timeElapsed = 0;
-  const intervalId = setInterval(() => {
-    timeElapsed += 5000;
-    if (fs.existsSync(directoryPath)) {
-      clearInterval(intervalId);
-      callback(null);
-    } else if (timeElapsed >= maxTime) {
-      clearInterval(intervalId);
-      callback(new Error('Timeout occurred while waiting for directory'));
-    }
-  }, 5000);
-}
+// function waitForDirectory(directoryPath, maxTime, callback) {
+//   let timeElapsed = 0;
+//   const intervalId = setInterval(() => {
+//     timeElapsed += 5000;
+//     if (fs.existsSync(directoryPath)) {
+//       clearInterval(intervalId);
+//       callback(null);
+//     } else if (timeElapsed >= maxTime) {
+//       clearInterval(intervalId);
+//       callback(new Error('Timeout occurred while waiting for directory'));
+//     }
+//   }, 5000);
+// }
+
+// app.post('/dirAvail', (req, res) => {
+//   const data = req.body;
+//   const dPath = `/users/geniuser/gifs/${data.directoryPath}`;
+//   if (fs.existsSync(dPath)) {
+//     return res.json({ result: true });
+//   } else {
+//     return res.json({ result: false });
+//   }
+// });
+
 
 app.post('/processDate', (req, res) => {
   const data = req.body;
@@ -59,8 +70,8 @@ app.post('/processDate', (req, res) => {
     }
   });
   data.name = data.name.replace(/\s/g, '');
-  const dateFormatted = moment(data.date, 'YYYY-MM-DD').format('YYYYMMDD');
-  const YMDH = `${dateFormatted}00`
+  // const dateFormatted = moment(data.date, 'YYYY-MM-DD').format('YYYYMMDD');
+  const YMDH = data.date;
   const directoryPath = `/users/geniuser/gifs/${YMDH}`;
   if (fs.existsSync(directoryPath)) {
     return res.json({ folderName: YMDH });
@@ -85,14 +96,15 @@ app.post('/processDate', (req, res) => {
     }
     console.log(`stdout: ${stdout}`);
   });
-  const maxTime = 2400000;
-  waitForDirectory(directoryPath, maxTime, (error) => {
-    if (error) {
-      console.log(error.message);
-      return res.status(500).json({ error: error.message });
-    }
-    return res.json({ folderName: YMDH });
-  });
+  return res.json({ folderName: YMDH });
+  // const maxTime = 2400000;
+  // waitForDirectory(directoryPath, maxTime, (error) => {
+  //   if (error) {
+  //     console.log(error.message);
+  //     return res.status(500).json({ error: error.message });
+  //   }
+  //   return res.json({ folderName: YMDH });
+  // });
 
 });
 

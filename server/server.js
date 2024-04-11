@@ -108,6 +108,50 @@ app.post('/processDate', (req, res) => {
 
 });
 
+app.post('/processEvents', (req, res) => {
+  const data = req.body;
+  const ipAddress = req.ip;
+  const userAgent = req.get('User-Agent');
+  const timestamp = new Date().toISOString();
+
+  // Log visitor information to a file (append mode)
+  const logData = `${timestamp}, ${ipAddress}, ${userAgent}, ${data.name}, ${data.event}\n`;
+  fs.appendFile('/users/geniuser/logs/user_log.csv', logData, (err) => {
+    if (err) {
+      console.error('Error logging visitor:', err);
+    }
+  });
+  data.name = data.name.replace(/\s/g, '');
+  // const dateFormatted = moment(data.date, 'YYYY-MM-DD').format('YYYYMMDD');
+  const event = data.event;
+  const directoryPath = `/users/geniuser/gifs/${event}`;
+  if (fs.existsSync(directoryPath)) {
+    return res.json({ folderName: YMDH });
+  }
+  const command = `bash /users/geniuser/${event}-copy.sh`;
+
+  console.log(command);
+  exec(command, (error, stdout, stderr) => {
+    if (error) {
+      console.error(`Error: ${error.message}`);
+    }
+    if (stderr) {
+      console.error(`stderr: ${stderr}`);
+    }
+    console.log(`stdout: ${stdout}`);
+  });
+  return res.json({ folderName: YMDH });
+  // const maxTime = 2400000;
+  // waitForDirectory(directoryPath, maxTime, (error) => {
+  //   if (error) {
+  //     console.log(error.message);
+  //     return res.status(500).json({ error: error.message });
+  //   }
+  //   return res.json({ folderName: YMDH });
+  // });
+
+});
+
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 });

@@ -28,6 +28,11 @@ pc.defineParameter(
     "",
     longDescription="Provide the date for the forecast")
 
+pc.defineParameter(
+    "node","Hardware Type",portal.ParameterType.STRING,
+    "",
+    longDescription="Hardware Type")
+
 # Retrieve the values the user specifies during instantiation.
 params = pc.bindParameters()
 
@@ -36,7 +41,7 @@ request = pc.makeRequestRSpec()
  
 # Add a raw PC to the request.
 node = request.RawPC("node")
-node.hardware_type = "m510"
+node.hardware_type = params.node
 # Check parameter validity. Should fetch the dataset from the long-term volume
 
 # if params.dataset == "sandy":

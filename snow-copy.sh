@@ -74,7 +74,7 @@ sudo docker run --rm -e LOCAL_USER_ID=`id -u $USER` \
 
 log "Running UPP"
 
-sudo docker run --rm -it -e LOCAL_USER_ID=`id -u $USER` \
+sudo docker run --rm -e LOCAL_USER_ID=`id -u $USER` \
 -v ${PROJ_DIR}/container-dtc-nwp/components/scripts/common:/home/scripts/common \
 -v ${PROJ_DIR}/container-dtc-nwp/components/scripts/snow_20160123:/home/scripts/case \
 -v ${CASE_DIR}/wrfprd:/home/wrfprd -v ${CASE_DIR}/postprd:/home/postprd \

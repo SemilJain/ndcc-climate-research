@@ -4,9 +4,50 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Visualize Your Own Forecast</title>
+    <style>
+        /* Styling for the navigation bar */
+        .navbar {
+            background-color: #333; /* Dark gray color */
+            overflow: hidden;
+        }
+
+        /* Style the buttons inside the navigation bar */
+        .navbar button {
+            float: left;
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 20px;
+            text-decoration: none;
+            font-size: 17px;
+            border: none;
+            cursor: pointer;
+            background-color: inherit;
+        }
+
+        /* Change color of buttons on hover */
+        .navbar button:hover {
+            background-color: green; /* Light gray color */
+            color: black;
+        }
+
+        /* Add an active class to highlight the current page */
+        .active {
+            background-color: green; /* Darker gray color */
+        }
+    </style>
 </head>
 <body>
-    <h2>Visualize Your Own Forecast</h2>
+    <!-- Navigation bar -->
+    <div class="navbar">
+        <button id="forecastBtn" class="active">Forecast</button>
+        <button id="disasterBtn">Disaster</button>
+        <button id="helpBtn">Help</button>
+    </div>
+
+    <!-- Content for forecast page -->
+    <div id="forecastContent" style="display: block;">
+        <h2>Visualize Your Own Forecast</h2>
     <form id="forecast-form">
         <label for="name">Name:</label>
         <input type="text" id="name" name="name" required><br><br>
@@ -27,15 +68,96 @@
 
     <div id="loading" style="display: none;">Processing... (If you selected a date a week before the current date, It might take around 25 minutes for the model to generate the forecast visualizations)</div>
     <div id="forecast-gifs"></div>
+    </div>
+
+    <!-- Content for disaster page (hidden by default) -->
+    <div id="disasterContent" style="display: none;">
+        <h2>Study Weather Disasters</h2>
+        <h4>What were the unfortunate weather Disasters?</h4>
+            <a href="https://www.weather.gov/okx/HurricaneSandy5Year" target="_blank">Hurricane Sandy Case (27 Oct 2012)</a><br>
+            <a href="https://www.weather.gov/lmk/derecho" target="_blank">Derecho Case (29 Jun 2012)</a><br>
+            <a href="https://www.weather.gov/okx/Blizzard_Jan2016" target="_blank">Snow Case (23 Jan 2016)</a><br><br>
+            <h4>Visualize them Below:</h4>
+        <form id="disaster-form">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required><br><br>
+            
+            <select id="event" name="event" required>
+                <option value="sandy">Hurricane Sandy Case (27 Oct 2012)</option>
+                <option value="derecho">Derecho Case (29 Jun 2012)</option>
+                <option value="snow">Snow Case (23 Jan 2016)</option>
+            </select><br><br>
+    
+            <button type="submit" id="submit-button-2">Submit</button>
+        </form>
+    
+        <div id="loading" style="display: none;">Processing...</div>
+        <div id="disaster-gifs"></div>
+        </div>
+    <div id="helpContent" style="display: none;">
+            <h2>Contact Us!</h2>
+            <p> If you face any issues <b>or</b> <br> Interested in learning more about what happens behind the curtains <b>or</b><br> Want to participate in more interesting weather use cases<br></p>
+            <h4>Contact us at <b>semil.jain@utah.edu</b></h4>
+    </div>
+
+    
+    <!-- Script to handle navigation button clicks -->
     <script>
-        // Display loading message while waiting for response
+        // Get forecast and disaster content elements
+        const forecastContent = document.getElementById('forecastContent');
+        const disasterContent = document.getElementById('disasterContent');
+        const helpContent = document.getElementById('helpContent');
+        // Get forecast and disaster buttons
+        const forecastBtn = document.getElementById('forecastBtn');
+        const disasterBtn = document.getElementById('disasterBtn');
+        const helpBtn = document.getElementById('helpBtn');
+
+        // Function to show forecast content and hide disaster content
+        function showForecast() {
+            forecastContent.style.display = 'block';
+            disasterContent.style.display = 'none';
+            helpContent.style.display = 'none';
+            forecastBtn.classList.add('active');
+            disasterBtn.classList.remove('active');
+            helpBtn.classList.remove('active');
+        }
+
+        // Function to show disaster content and hide forecast content
+        function showDisaster() {
+            forecastContent.style.display = 'none';
+            disasterContent.style.display = 'block';
+            helpContent.style.display = 'none';
+            forecastBtn.classList.remove('active');
+            disasterBtn.classList.add('active');
+            helpBtn.classList.remove('active');
+            
+        }
+        function showHelp() {
+            forecastContent.style.display = 'none';
+            disasterContent.style.display = 'none';
+            helpContent.style.display = 'block';
+            forecastBtn.classList.remove('active');
+            disasterBtn.classList.remove('active');
+            helpBtn.classList.add('active');
+        }
+
+        // Add event listeners to forecast and disaster buttons
+        forecastBtn.addEventListener('click', showForecast);
+        disasterBtn.addEventListener('click', showDisaster);
+        helpBtn.addEventListener('click', showHelp);
+
+        // Initially show forecast content
+        showForecast();
+
         const loadingDiv = document.getElementById('loading');
         const forecastForm = document.getElementById('forecast-form');
         const submitButton = document.getElementById('submit-button');
+        const disasterForm = document.getElementById('disaster-form');
+        const submitButton2 = document.getElementById('submit-button-2');
         // forecastForm.addEventListener('submit', () => {
         //     loadingDiv.style.display = 'block';
         // });
-
+        const url = 'http://ms1231.utah.cloudlab.us:3000';
         // Fetch and display GIFs after form submission
         document.getElementById('forecast-form').addEventListener('submit', async (event) => {
             event.preventDefault();
@@ -48,7 +170,6 @@
             formData.forEach((value, key) => {
                 jsonData[key] = value;
             });
-            const url = 'http://ms1231.utah.cloudlab.us:3000';
             try {
                 const response = await fetch(`${url}/processDate`, {
                     method: 'POST',
@@ -88,6 +209,60 @@
             } finally {
                 loadingDiv.style.display = 'none';
                 submitButton.disabled = false; // Re-enable the button
+            }
+        });
+
+        document.getElementById('disaster-form').addEventListener('submit', async (event) => {
+            event.preventDefault();
+            submitButton2.disabled = true;
+            loadingDiv.style.display = 'block';
+            const gifContainer2 = document.getElementById('disaster-gifs');
+            gifContainer2.innerHTML = '';
+            const formData2 = new FormData(event.target);
+            const jsonData2 = {};
+            formData2.forEach((value, key) => {
+                jsonData2[key] = value;
+            });
+            
+            try {
+                const response2 = await fetch(`${url}/processEvents`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(jsonData2)
+                });
+
+                if (response2.ok) {
+                    const { folderName } = await response2.json();
+                    let img = document.createElement('img');
+                    img.src = `${url}/${folderName}/500_d01.gif`;
+                    gifContainer2.appendChild(img);
+
+                    img = document.createElement('img');
+                    img.src = `${url}/${folderName}/slp_d01.gif`;
+                    gifContainer2.appendChild(img);
+
+                    img = document.createElement('img');
+                    img.src = `${url}/${folderName}/sfcape_d01.gif`;
+                    gifContainer2.appendChild(img);
+
+                    img = document.createElement('img');
+                    img.src = `${url}/${folderName}/qpf_d01.gif`;
+                    gifContainer2.appendChild(img);
+
+                    img = document.createElement('img');
+                    img.src = `${url}/${folderName}/250wind_d01.gif`;
+                    gifContainer2.appendChild(img);
+                } else {
+                    throw new Error('Failed to process forecast');
+                }
+            } catch (error) {
+                console.error(error);
+                alert('Failed to process forecast');
+            } finally {
+                loadingDiv.style.display = 'none';
+                submitButton2.disabled = false; // Re-enable the button
             }
         });
     </script>

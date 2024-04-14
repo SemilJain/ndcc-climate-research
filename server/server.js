@@ -126,7 +126,7 @@ app.post('/processEvents', (req, res) => {
   const event = data.event;
   const directoryPath = `/users/geniuser/gifs/${event}`;
   if (fs.existsSync(directoryPath)) {
-    return res.json({ folderName: YMDH });
+    return res.json({ folderName: data.event });
   }
   const command = `bash /users/geniuser/${event}-copy.sh`;
 
@@ -140,7 +140,7 @@ app.post('/processEvents', (req, res) => {
     }
     console.log(`stdout: ${stdout}`);
   });
-  return res.json({ folderName: YMDH });
+  return res.json({ folderName: data.event });
   // const maxTime = 2400000;
   // waitForDirectory(directoryPath, maxTime, (error) => {
   //   if (error) {

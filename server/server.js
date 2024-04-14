@@ -71,15 +71,15 @@ app.post('/processDate', (req, res) => {
   });
   data.name = data.name.replace(/\s/g, '');
   // const dateFormatted = moment(data.date, 'YYYY-MM-DD').format('YYYYMMDD');
-  const YMDH = data.date;
+  const YMDH = `${data.date}00`;
   const directoryPath = `/users/geniuser/gifs/${YMDH}`;
   if (fs.existsSync(directoryPath)) {
     return res.json({ folderName: YMDH });
   }
   const MAX_FHR = 24;
   const FHR_INC = 3;
-  const DATASET = `${data.name}-${dateFormatted}`;
-  const dateTime = moment(`${data.date} ${data.time}`, 'YYYYMMDD HH:mm:ss');
+  const DATASET = `${data.name}-${YMDH}`;
+  const dateTime = moment(`${data.date} 00:00:00`, 'YYYYMMDD HH:mm:ss');
   const startDate = dateTime.format('YYYY-MM-DD_HH:mm:ss');
   dateTime.add(1, 'days');
   const endDate = dateTime.format('YYYY-MM-DD_HH:mm:ss');
